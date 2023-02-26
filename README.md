@@ -8,3 +8,4 @@ spring boot jpa
 spring boot redis
 spring boot kafka
 spring boot iam
+spring boot serialization
