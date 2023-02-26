@@ -9,12 +9,16 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
-	<artifactId>poc</artifactId>
+	<artifactId>spring-poc</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<name>poc</name>
+	<name>spring-poc</name>
 	<description>Demo project for Spring Boot 3</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>
+	<modules>
+		<module>spring-poc-web</module>
+		<module>maven-poc-jaxb2</module>
+	</modules>
 </project>
