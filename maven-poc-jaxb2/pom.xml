@@ -31,10 +31,41 @@
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
+		<!--Xml Api-->
+		<dependency>
+			<groupId>jakarta.xml.bind</groupId>
+			<artifactId>jakarta.xml.bind-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.xml.bind</groupId>
+			<artifactId>jaxb-impl</artifactId>
+			<scope>runtime</scope>
+		</dependency>
 	</dependencies>
-
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>com.helger.maven</groupId>
+				<artifactId>jaxb40-maven-plugin</artifactId>
+				<version>0.16.1</version>
+				<executions>
+					<execution>
+						<id>sample</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<schemaLanguage>WSDL</schemaLanguage>
+							<generateDirectory>${project.build.directory}/generated-sources/xjc</generateDirectory>
+							<generatePackage>com.example.demo.ws</generatePackage>
+							<schemaDirectory>${project.basedir}/src/main/resources/wsdl</schemaDirectory>
+							<schemaIncludes>
+								<include>sample.wsdl</include>
+							</schemaIncludes>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
@@ -49,5 +80,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
 </project>
