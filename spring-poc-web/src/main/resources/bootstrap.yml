@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: spring-poc-web
+  profiles: 
+    active: dev
+    default: dev
+  cloud:
+    config:
+      enabled: false
+      uri: ${CONFIG_SERVICE_URL:(@config.server.url@)}
+  main:
+    allow-bean-definition-overriding: true
+    allow-circular-references: true

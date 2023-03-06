@@ -18,6 +18,10 @@
 		<java.version>17</java.version>
 		<spring.cloud.version>2022.0.1</spring.cloud.version>
 		<spring.openapi.version>2.0.2</spring.openapi.version>
+		<!-- build config -->
+		<maven.build.timestamp.format>yyyy-MM-dd'T'HH:mm:ss'Z'</maven.build.timestamp.format>
+		<build.version>1.0.0</build.version>
+		<build.branch>main</build.branch>
 	</properties>
 	<modules>
 		<module>spring-poc-web</module>
@@ -45,4 +49,55 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>**/*.yml</include>
+					<include>**/*.xsd</include>
+					<include>**/*.wsdl</include>
+					<include>**/*.jasper</include>
+					<include>**/*.json</include>
+					<include>**/*.xml</include>
+					<include>**/banner.txt</include>
+				</includes>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<groupId>io.github.git-commit-id</groupId>
+				<artifactId>git-commit-id-maven-plugin</artifactId>
+				<configuration>
+					<verbose>true</verbose>
+					<replacementProperties>
+						<replacementProperty>
+							<property>git.branch</property>
+							<token>^[0-9a-f]{5,40}$</token>
+							<value>${build.branch}</value>
+							<regex>true</regex>
+						</replacementProperty>
+					</replacementProperties>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>timestamp-property</id>
+						<goals>
+							<goal>timestamp-property</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<name>build.time</name>
+					<pattern>${maven.build.timestamp.format}</pattern>
+					<timeZone>GMT+5:30</timeZone>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>
