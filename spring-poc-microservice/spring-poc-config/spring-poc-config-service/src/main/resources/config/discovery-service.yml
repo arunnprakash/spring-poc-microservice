@@ -1,0 +1,46 @@
+# Configure Discovery Service
+eureka:
+  instance:
+    hostname: localhost
+    metadata-map:
+      user.name: (@spring.security.user.name@)         #These two are needed so that the server
+      user.password: (@spring.security.user.password@) #can access the protected client endpoints
+    preferIpAddress: true
+  client: 
+    registerWithEureka: false
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+  dashboard:
+    path: /dashboard
+# HTTP (Tomcat) port
+server:
+  port: ${DISCOVERY_SERVICE_PORT:(@discovery.service.port@)}
+
+spring:
+  resources:
+    add-mappings: false
+  security:
+    user:
+      name: (@spring.security.user.name@)
+      password: (@spring.security.user.password@)
+  zipkin:
+    base-url: ${ZIPKIN_SERVICE_URL:(@zipkin.service.url@)}
+  thymeleaf:
+    enabled: false
+  freemarker:
+    check-template-location: false
+    enabled: false
+    prefer-file-system-access: false
+  main:
+    allow-bean-definition-overriding: true
+# logging
+logging:
+  file:
+    name: ${LOG_PATH:logs}/${spring.cloud.client.hostname}_${spring.application.name}.log
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n"
+  level:
+    org.springframework.web: INFO
+    com.example.demo: DEBUG

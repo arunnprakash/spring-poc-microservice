@@ -1,0 +1,119 @@
+spring:
+  webflux:
+    base-path: (@gateway.service.context.path@)
+  basic:
+    enabled: false
+  autoconfigure:
+    # TODO: remove when fixed https://github.com/spring-projects/spring-security/issues/6314
+    exclude: org.springframework.boot.actuate.autoconfigure.security.reactive.ReactiveManagementWebSecurityAutoConfiguration
+  freemarker:
+    request-context-attribute: rc
+  mvc:
+    view.suffix: .html
+  # Send distributed traces to zipkin server (using Eureka to find the server)
+  sleuth:
+    enabled: true
+    sampler:
+      percentage: 1.0
+    web:
+      skipPattern: (^cleanup.*|.+favicon.*)
+  zipkin:
+    service:
+        name: ${spring.application.name}
+    locator:
+      discovery:
+        enabled: true
+    base-url: ${ZIPKIN_SERVICE_URL:(@zipkin.service.url@)}
+    sender:
+      type: web
+  cloud:
+    gateway:
+      httpclient:
+        connect-timeout: 60000
+        response-timeout: 300s
+      discovery:
+        locator:
+          enabled: true
+      routes:
+      - id: employee-service
+        uri: lb://employee-service
+        predicates:
+          - Path=/employee-service/**
+        filters:
+          - RewritePath=/employee-service/(?<path>.*), /$\{path}
+
+      - id: openapi3
+        uri: http://localhost:(@gateway.service.port@)
+        predicates:
+          - Path=/v3/api-docs/**
+        filters:
+          - RewritePath=/v3/api-docs/(?<path>.*), ${spring.webflux.base-path}/$\{path}/v3/api-docs
+springdoc:
+  swagger-ui:
+    doc-expansion: none
+
+# Configure discovery service
+# tag::configuration-eureka[]
+eureka:
+  instance:
+    metadata-map:
+      user.name: (@spring.security.user.name@)         #These two are needed so that the server
+      user.password: (@spring.security.user.password@) #can access the protected client endpoints
+      startup: 10    #needed to trigger info and endpoint update after restart
+    leaseRenewalIntervalInSeconds: 10
+    health-check-url-path: /actuator/health
+    preferIpAddress: true
+  client:
+    registryFetchIntervalSeconds: 1
+    serviceUrl:
+      defaultZone: ${EUREKA_SERVICE_URL:(@eureka.service.url@)}/eureka/
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"  #<2>
+  endpoint:
+    health:
+      show-details: ALWAYS
+    logfile:
+      external_file: ${logging.file.name}
+# end::configuration-eureka[]
+
+# HTTP (Tomcat) port
+server:
+  port: ${GATEWAY_SERVICE_PORT:(@gateway.service.port@)}
+  compression:
+    enabled: true
+  servlet:
+    context-path: (@gateway.service.context.path@)
+# logging
+logging:
+  file:
+    name: ${LOG_PATH:logs}/${spring.cloud.client.hostname}_gateway.log
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n"
+  level:
+    org.springframework.web: INFO
+    org.springframework.cloud.gateway: INFO
+    org.springframework.cloud.gateway.handler: INFO
+    org.springframework.cloud.gateway.filter.factory: TRACE
+    reactor.netty.http.client: DEBUG
+    com.example.demo: DEBUG
+
+ribbon:
+  retryable: true
+  ConnectTimeout: 3000
+  ReadTimeout: 60000
+feign:
+  histrix:
+    enabled: false
+
+hystrix:
+  command:
+    choose:
+      default:
+        execution:
+          timeout:
+            enabled: false

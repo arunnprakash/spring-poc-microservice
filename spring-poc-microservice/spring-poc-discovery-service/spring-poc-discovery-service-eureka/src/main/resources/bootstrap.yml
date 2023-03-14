@@ -1,0 +1,10 @@
+# Config Server
+spring:
+  application:
+    name: discovery-service
+  profiles: 
+    active: (@spring.profiles.active@)
+    default: dev
+  cloud:
+    config:
+      uri: ${CONFIG_SERVICE_URL:(@config.service.url@)}

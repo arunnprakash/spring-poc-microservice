@@ -1,0 +1,191 @@
+spring:
+  security:
+    user:
+      name: ${SPRING_SECURITY_USERNAME:(@spring.security.user.name@)}
+      password: ${SPRING_SECURITY_PASSWORD:(@spring.security.user.password@)}
+  h2:
+    console:
+      enabled: true
+      path: /h2
+      settings:
+        trace: true
+        web-allow-others: true
+  servlet:
+    multipart:
+      maxFileSize: ${MULTIPART_MAX_FILE_SIZE:10MB}
+      maxRequestSize: ${MULTIPART_MAX_REQ_SIZE:15MB}
+  cache:
+    type: ${CACHE_TYPE:(@cache.type@)}
+    clearInterval: ${CACHE_CLEAR_INTERVAL:0 0 0/1 * * ?}
+  data:
+    redis:
+      host: ${REDIS_HOST_IP:(@redis.host.ip@)}
+      port: ${REDIS_PORT:(@redis.port@)}
+      clientType: JEDIS
+      authEnabled: ${REDIS_AUTH_ENABLED:false}
+      username: ${REDIS_USERNAME:admin}
+      password: ${REDIS_PASSWORD:(@redis.password@)}
+      timeout: ${REDIS_READ_TIMEOUT:(@redis.timeout@)}
+      connect-timeout: ${REDIS_CONNECT_TIMEOUT:30s}
+      ssl: ${REDIS_SSL_ENABLED:false}
+      jedis:
+        pool:
+          enabled: ${JEDIS_POOL_ENABLED:true}
+          min-idle: ${JEDIS_CONNECTION_MIN_IDLE:2}
+          max-idle: ${JEDIS_CONNECTION_MAX_IDLE:8}
+          max-active: ${JEDIS_CONNECTION_MAX_ACTIVE:8}
+  # Send distributed traces to zipkin server (using Eureka to find the server)
+  sleuth:
+    enabled: true
+    sampler:
+      percentage: 1.0
+    web:
+      skipPattern: (^cleanup.*)
+  zipkin:
+    service:
+        name: ${spring.application.name}
+    locator:
+      discovery:
+        enabled: true
+    base-url: ${ZIPKIN_SERVICE_URL:(@zipkin.service.url@)}
+    sender:
+      type: web
+  # Kafka config
+  kafka:
+    bootstrap-servers: ${KAFKA_BROKERS:localhost:9092}
+    consumer:
+      group-id: ${KAFKA_GROUP_ID:DemoGroupId}
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      request:
+        timeout:
+            ms: ${KAFKA_CONSUMER_REQ_TIMEOUT:3000}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      request:
+        timeout:
+            ms: ${KAFKA_PRODUCER_REQ_TIMEOUT:3000}
+
+
+springdoc:
+  swagger-ui:
+    doc-expansion: none
+
+# Configure this Discovery Server
+# tag::configuration-eureka[]
+eureka:
+  instance:
+    metadata-map:
+      user.name: (@spring.security.user.name@)         #These two are needed so that the server
+      user.password: (@spring.security.user.password@) #can access the protected client endpoints
+      startup: 10    #needed to trigger info and endpoint update after restart
+    leaseRenewalIntervalInSeconds: 10
+    health-check-url-path: /actuator/health
+    preferIpAddress: true
+      
+  client:
+    fetchRegistry: (@eureka.client.fetchRegistry@)
+    registryFetchIntervalSeconds: 1
+    registerWithEureka: (@eureka.client.registerWithEureka@)
+    serviceUrl:
+      defaultZone: ${EUREKA_SERVICE_URL:(@eureka.service.url@)}/eureka/
+
+# logging
+logging:
+  file:
+    name: ${LOG_PATH:logs}/${spring.cloud.client.hostname}_${spring.application.name}.log
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS}| [%thread] UserName=%X{UserId}, RequestId=%X{RequestId}| ServiceName=${spring.zipkin.service.name:${spring.application.name:}}, TraceId=%X{traceId:-}, SpanId=%X{spanId:-}|%-5level|[%class{36}.%M] %L: %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS}, [%thread] UserName=%X{UserId}, RequestId=%X{RequestId}| ServiceName=${spring.zipkin.service.name:${spring.application.name:}}, TraceId=%X{traceId:-}, SpanId=%X{spanId:-}|%-5level|[%class{36}.%M] %L: %msg%n"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"  #<2>
+  endpoint:
+    health:
+      show-details: ALWAYS
+    shutdown:
+      enabled: true
+# end::configuration-eureka[]
+
+#Feign Config
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: ${FEIGN_CONNECT_TIMEOUT:60000}
+        readTimeout: ${FEIGN_READ_TIMEOUT:60000}
+        loggerLevel: full
+        requestInterceptors:
+          - com.example.demo.FeignRequestInterceptor
+        decode404: false
+
+#Override session id name
+server:
+  servlet:
+    session:
+      cookie:
+        name: MYAPP_SESSION_ID
+        secure: true
+        http-only: true
+
+---
+spring.config.activate.on-profile: dev
+# logging
+logging:
+  level:
+    org.springframework.web: INFO
+    org.hibernate: WARN
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    com.example.demo: DEBUG
+    com.redis.om.spring: TRACE
+---
+spring.config.activate.on-profile: test
+# logging
+logging:
+  level:
+    org.springframework.web: INFO
+    org.hibernate: WARN
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    com.example.demo: DEBUG
+    com.redis.om.spring: TRACE
+---
+spring.config.activate.on-profile: sit
+# logging
+logging:
+  level:
+    org.springframework.web: INFO
+    org.hibernate: WARN
+    org.hibernate.SQL: INFO
+    org.hibernate.type.descriptor.sql.BasicBinder: INFO
+    com.example.demo: INFO
+    com.redis.om.spring: TRACE
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS}| [%thread] UserName=%X{UserId}, RequestId=%X{RequestId}| ServiceName=${spring.zipkin.service.name:${spring.application.name:}}, TraceId=%X{traceId:-}, SpanId=%X{spanId:-}|%-5level|[%class{36}.%M] %L: %msg %replace(%xException){'\r\n','~~'}%nopex%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS}, [%thread] UserName=%X{UserId}, RequestId=%X{RequestId}| ServiceName=${spring.zipkin.service.name:${spring.application.name:}}, TraceId=%X{traceId:-}, SpanId=%X{spanId:-}|%-5level|[%class{36}.%M] %L: %msg %replace(%xException){'\r\n','~~'}%nopex%n"
+
+spring:
+  jpa:
+    show-sql: false 
+  kafka:
+    properties:
+      #Server host name verification is disabled by setting ssl.endpoint.identification.algorithm to an empty string
+      ssl.endpoint.identification.algorithm:
+      security.protocol: "SSL"
+      ssl.protocol: "SSL"
+      enable.idempotence: false
+    ssl:
+      enabled: ${KAFKA_SSL_ENABLED:false}
+      protocol: ${KAFKA_SSL_PROTOCOL:(@kafka.ssl.protocol@)}
+      trust-store-location: ${KAFKA_SSL_TRUST_STORE_LOC:(@kafka.ssl.trust.store.loc@)}
+      trust-store-password: ${KAFKA_SSL_TRUST_STORE_PASSWORD:(@kafka.ssl.trust.store.password@)}
+      key-store-location: ${KAFKA_SSL_KEY_STORE_LOC:(@kafka.ssl.key.store.loc@)}
+      key-store-password: ${KAFKA_SSL_KEY_STORE_PASSWORD:(@kafka.ssl.key.store.password@)}
+      key-password: ${KAFKA_SSL_KEY_PASSWORD:(@kafka.ssl.key.password@)}
+spring.kafka.properties.security.protocol: "SSL"

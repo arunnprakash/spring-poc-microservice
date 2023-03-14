@@ -1,15 +1,3 @@
-/*******************************************************************************
- *
- * Copyright (c) 2020 Mindgate Private Limited
- *
- * All information contained herein is, and remains the property of Mindgate Private
- * Limited. The intellectual and technical concepts contained herein are
- * proprietary to Mindgate Private and are protected by trade secret or copyright law.
- * Dissemination of this information or reproduction of this material is
- * strictly forbidden unless prior written permission is obtained from Mindgate Private
- * Limited
- *
- *******************************************************************************/
 package com.example.demo;
 
 import java.util.Collections;
@@ -44,9 +32,9 @@ public class OpenApiConfig {
 		return new OpenAPI().info(new Info()
 					.title(appName.toUpperCase())
 					.version("1.0.0")
-					.description("\"REST API for Vtransact "+appName+"\"")
+					.description("\"REST API for Demo "+appName+"\"")
 					.license(new License().name("Copyright (c) 2023 Demo Limited").url("https://www.demo.com"))
-					.contact(new Contact().name("Mindgate").url("https://www.mindgate.in/").email("arunnprakash@gmail.com"))
+					.contact(new Contact().name("Demo").url("https://www.demo.in/").email("arunnprakash@gmail.com"))
 				)
 				.components(new Components()
 						.addSecuritySchemes("BearerToken", apiKeySecuritySchema())

@@ -7,11 +7,15 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig {
@@ -26,7 +30,7 @@ public class SecurityConfig {
 	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		
 		http.authorizeHttpRequests()
-		.requestMatchers("/",
+		.requestMatchers(
 				"/v2/api-docs/**",
 				"/v3/api-docs/**",
 				"/swagger-ui/**",
@@ -68,7 +72,13 @@ public class SecurityConfig {
 		return http.build();
 		
 	}
-	
+	@Bean
+	WebSecurityCustomizer webSecurityCustomizer() {
+		return web -> web.ignoring().requestMatchers(request -> {
+			log.info("Checking Conditions");
+			return true;
+		});
+	}
 	@Bean
 	AuthenticationProvider authenticationProvider() {
 		DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();

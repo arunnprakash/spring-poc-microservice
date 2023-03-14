@@ -11,6 +11,10 @@ spring:
       settings:
         trace: true
         web-allow-others: true
+# logging
 logging:
   level:
-    org.springframework.jdbc: TRACE
+    org.springframework.web: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS}| [%thread] UserName=%X{UserId}, RequestId=%X{RequestId}| ServiceName=${spring.zipkin.service.name:${spring.application.name:}}, TraceId=%X{traceId:-}, SpanId=%X{spanId:-}|%-5level|[%class{36}.%M] %L: %msg %replace(%xException){'\r\n','~~'}%nopex%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS}, [%thread] UserName=%X{UserId}, RequestId=%X{RequestId}| ServiceName=${spring.zipkin.service.name:${spring.application.name:}}, TraceId=%X{traceId:-}, SpanId=%X{spanId:-}|%-5level|[%class{36}.%M] %L: %msg %replace(%xException){'\r\n','~~'}%nopex%n"
