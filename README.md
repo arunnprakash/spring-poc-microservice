@@ -1,6 +1,5 @@
 # spring-poc
 Spring Boot 3 poc 
-
 spring boot web
 spring boot batch
 spring boot jdbc
