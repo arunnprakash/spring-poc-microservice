@@ -18,7 +18,7 @@ import com.example.demo.service.EmployeeService;
  */
 @RestController
 @RequestMapping(path = "/v1")
-public class EmployeeController {
+public class EmployeeController extends BaseController {
 
 	@Autowired
 	private EmployeeService employeeService;

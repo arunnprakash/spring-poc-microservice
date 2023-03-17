@@ -1,7 +1,5 @@
 package com.example.demo.model;
 
-import org.springframework.data.annotation.Id;
-
 import lombok.Data;
 
 /**
@@ -9,9 +7,7 @@ import lombok.Data;
  *
  */
 @Data
-public class Employee {
-	@Id
-	private Long id;
+public class Employee extends BaseModel {
 	
 	private String name;
 	

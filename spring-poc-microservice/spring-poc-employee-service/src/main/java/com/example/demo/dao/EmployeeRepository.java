@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.data.jdbc.repository.query.Modifying;
 import org.springframework.data.jdbc.repository.query.Query;
-import org.springframework.data.repository.CrudRepository;
 
 import com.example.demo.model.Employee;
 
@@ -12,7 +11,7 @@ import com.example.demo.model.Employee;
  * @author __ArunPrakash__
  *
  */
-public interface EmployeeRepository extends CrudRepository<Employee, Long> {
+public interface EmployeeRepository extends BaseRepository<Employee> {
 
 	List<Employee> findByName(String name);
 	
