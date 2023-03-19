@@ -11,11 +11,11 @@ import com.example.demo.model.Employee;
  * @author __ArunPrakash__
  *
  */
-public interface EmployeeRepository extends BaseRepository<Employee> {
+public interface EmployeeRepository extends BaseRepository<Employee>, CustomEmployeeRepository {
 
 	List<Employee> findByName(String name);
 	
 	@Modifying
-	@Query("UPDATE employee SET status ='inactive' WHERE ID = :id")
+	@Query("UPDATE employee SET status ='I' WHERE ID = :id")
 	void updateStatusInactive(Long id);
 }

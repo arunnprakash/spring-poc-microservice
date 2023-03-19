@@ -11,5 +11,5 @@ public class Employee extends BaseModel {
 	
 	private String name;
 	
-	private String status;
+	private Status status;
 }

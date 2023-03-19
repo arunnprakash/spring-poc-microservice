@@ -3,8 +3,6 @@ package com.example.demo;
 import static java.lang.System.out;
 import static java.util.Arrays.asList;
 
-import java.util.Arrays;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -39,7 +37,7 @@ public class ApplicationSummary {
 	
 	@EventListener(ApplicationReadyEvent.class)
 	public void appSummary() {
-		out.println("==============================Application Summary==============================");
+		out.println("================================Application Summary================================");
 		out.printf("\tProfile \t\t:\t%s%n", asList(environment.getActiveProfiles()));
 		out.printf("\tBuild Version\t\t:\t%s%n", buildProperties.getVersion());
 		out.printf("\tBuild At\t\t:\t%s%n", buildProperties.getTime());
@@ -47,7 +45,7 @@ public class ApplicationSummary {
 		out.printf("\tGit CommitId\t\t:\t%s%n", gitProperties.getCommitId());
 		out.printf("\tDB Url\t\t\t:\t%s%n", dataSourceProperties.getUrl());
 		out.printf("\tService Port\t\t:\t%s%n", webServerAppCtxt.getWebServer().getPort());
-		out.println("===============================================================================");
+		out.println("===================================================================================");
 	}
 
 }

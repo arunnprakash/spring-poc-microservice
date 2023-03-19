@@ -14,7 +14,7 @@ import com.google.common.collect.Lists;
  *
  */
 @Service
-public class EmployeeServiceImpl implements EmployeeService {
+public class EmployeeServiceImpl extends BaseServiceImpl implements EmployeeService {
 	
 	@Autowired
 	private EmployeeRepository employeeRepository;
@@ -22,6 +22,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public List<Employee> getAllEmployees() {
 		return Lists.newArrayList(employeeRepository.findAll());
+	}
+
+	@Override
+	public Employee updateEmployee(Employee employee) {
+		return employeeRepository.updateName(employee);
 	}
 
 }
