@@ -20,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class Query {
 
-
+	private String queryString;
 	private String oracle;
 	private String mssql;
 	private String postgres;
@@ -32,15 +32,23 @@ public final class Query {
 	private NamedParameterJdbcTemplate jdbcTemplate;
 
 	public String getQueryString() {
-		if (databaseType.isOracle()) {
-			return oracle;
-		} else if (databaseType.isMssql()) {
-			return mssql;
+		if (queryString != null) {
+			return queryString;
 		} else {
-			return postgres;
+			if (databaseType.isOracle()) {
+				return oracle;
+			} else if (databaseType.isMssql()) {
+				return mssql;
+			} else {
+				return postgres;
+			}
 		}
 	}
-
+	public static Query of(String queryString) {
+		return Query.builder()
+				.queryString(queryString)
+			.build();
+	}
 	public <T> Stream<T> queryForStream(MapSqlParameterSource paramters) {
 		return jdbcTemplate.queryForStream(getQueryString(), paramters, new BeanPropertyRowMapper<T>());
 	}

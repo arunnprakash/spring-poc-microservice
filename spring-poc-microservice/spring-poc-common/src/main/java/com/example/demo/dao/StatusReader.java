@@ -1,7 +1,9 @@
-package com.example.demo.model;
+package com.example.demo.dao;
 
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.convert.ReadingConverter;
+
+import com.example.demo.model.Status;
 
 /**
  * @author __ArunPrakash__

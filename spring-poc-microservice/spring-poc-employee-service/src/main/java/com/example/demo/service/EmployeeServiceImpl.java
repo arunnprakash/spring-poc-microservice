@@ -29,4 +29,9 @@ public class EmployeeServiceImpl extends BaseServiceImpl implements EmployeeServ
 		return employeeRepository.updateName(employee);
 	}
 
+	@Override
+	public Employee addEmployee(Employee employee) {
+		return employeeRepository.save(employee);
+	}
+
 }

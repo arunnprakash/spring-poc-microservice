@@ -17,4 +17,6 @@ public interface EmployeeService {
 
 	Employee updateEmployee(Employee employee);
 
+	Employee addEmployee(Employee employee);
+
 }

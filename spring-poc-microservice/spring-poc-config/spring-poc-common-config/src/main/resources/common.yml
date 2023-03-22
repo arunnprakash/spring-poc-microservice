@@ -132,7 +132,15 @@ server:
         name: MYAPP_SESSION_ID
         secure: true
         http-only: true
-
+async:
+  thread:
+    corePoolSize: ${ASYNC_THREAD_POOL_SIZE:3}
+    maxPoolSize: ${ASYNC_THREAD_MAX_POOL_SIZE:15}
+    queueCapacity: ${ASYNC_THREAD_QUEUE_CAPACITY:100}
+    threadNamePrefix: ${ASYNC_THREAD_NAME_PREFIX:asyn-task-thread}
+application:
+  datetime:
+    format: ${APP_DATETIME_FORMAT:yyyy-MM-dd HH:mm:ss}
 ---
 spring.config.activate.on-profile: dev
 # logging

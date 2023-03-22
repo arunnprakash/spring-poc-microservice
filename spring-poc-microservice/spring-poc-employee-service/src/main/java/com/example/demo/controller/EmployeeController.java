@@ -19,19 +19,25 @@ import com.example.demo.service.EmployeeService;
  *
  */
 @RestController
-@RequestMapping(path = "/v1")
+@RequestMapping(path = "/v1/employees")
 public class EmployeeController extends BaseController {
 
 	@Autowired
 	private EmployeeService employeeService;
 
-	@GetMapping("/employees")
+	@GetMapping
 	@ResponseStatus(HttpStatus.OK)
 	public List<Employee> getAllEmployees() {
 		return employeeService.getAllEmployees();
 	}
 
-	@PostMapping("/employees")
+	@PostMapping("/add")
+	@ResponseStatus(HttpStatus.OK)
+	public Employee addEmployee(@RequestBody Employee employee) {
+		return employeeService.addEmployee(employee);
+	}
+	
+	@PostMapping("/update")
 	@ResponseStatus(HttpStatus.OK)
 	public Employee updateEmployee(@RequestBody Employee employee) {
 		return employeeService.updateEmployee(employee);

@@ -1,6 +1,6 @@
 package com.example.demo.model;
 
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
@@ -14,8 +14,8 @@ public class BaseModel {
 	private Long id;
 	
 	@CreatedDate
-	private ZonedDateTime createdDate;
+	private LocalDateTime createdDate;
 	
 	@LastModifiedDate
-	private ZonedDateTime modifiedDate;
+	private LocalDateTime modifiedDate;
 }

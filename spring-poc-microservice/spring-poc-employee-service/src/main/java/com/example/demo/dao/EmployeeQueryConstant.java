@@ -1,4 +1,5 @@
 package com.example.demo.dao;
+
 /**
  * @author __ArunPrakash.B__
  *
@@ -6,10 +7,5 @@ package com.example.demo.dao;
 public final class EmployeeQueryConstant {
 	private EmployeeQueryConstant() {}
 
-	public static final Query TRANSACTION_SUMMARY_QUERY = Query
-			.builder()
-				.oracle("SELECT * FROM EMPLOYEE")
-				.mssql("SELECT * FROM EMPLOYEE")
-				.postgres("SELECT * FROM EMPLOYEE")
-			.build();
+	public static final Query UPDATE_EMPLOYEE_QUERY = Query.of("UPDATE EMPLOYEE SET NAME=:name WHERE ID=:id");
 }
