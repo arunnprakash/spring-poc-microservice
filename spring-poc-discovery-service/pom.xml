@@ -1,24 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.example</groupId>
-		<artifactId>spring-poc</artifactId>
+		<artifactId>spring-poc-microservice</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
+	<artifactId>spring-poc-discovery-service</artifactId>
 	<packaging>pom</packaging>
-	<artifactId>spring-poc-microservice</artifactId>
-	<name>spring-poc-microservice</name>
-	<description>Demo project for Spring Boot microservice</description>
+	<name>spring-poc-discovery-service</name>
+	<description>spring-poc-discovery-service</description>
+	<properties>
+		<sonar.skip>true</sonar.skip>
+	</properties>
 	<modules>
-		<module>spring-poc-config</module>
-		<module>spring-poc-discovery-service</module>
-		<module>spring-poc-common</module>
-		<module>spring-poc-authorization-service</module>
-		<module>spring-poc-employee-service</module>
-		<!--<module>spring-poc-department-service</module>
-		<module>spring-poc-gateway-service</module>-->
+		<module>spring-poc-discovery-service-eureka</module>
 	</modules>
 	<build>
 		<plugins>

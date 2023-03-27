@@ -7,13 +7,15 @@
 		<artifactId>spring-poc-microservice</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>spring-poc-config</artifactId>
+	<artifactId>spring-poc-gateway</artifactId>
 	<packaging>pom</packaging>
-	<name>spring-poc-config</name>
-	<description>spring-poc-config</description>
+	<name>spring-poc-gateway</name>
+	<description>spring-poc-gateway</description>
+	<properties>
+		<sonar.skip>true</sonar.skip>
+	</properties>
 	<modules>
-		<module>spring-poc-common-config</module>
-		<module>spring-poc-config-service</module>
+		<module>spring-poc-gateway-cloud</module>
 	</modules>
 	<build>
 		<plugins>
@@ -30,7 +32,7 @@
 				</executions>
 				<configuration>
 					<files>
-						<file>../../build-config.properties</file>
+						<file>../build-config.properties</file>
 					</files>
 				</configuration>
 			</plugin>

@@ -58,7 +58,7 @@
 				</executions>
 				<configuration>
 					<files>
-						<file>../../build-config.properties</file>
+						<file>../build-config.properties</file>
 					</files>
 				</configuration>
 			</plugin>
