@@ -141,6 +141,11 @@ async:
 application:
   datetime:
     format: ${APP_DATETIME_FORMAT:yyyy-MM-dd HH:mm:ss}
+  jwt:
+    headerName: Authorization
+    tokenPrefix: Bearer
+    expiration: 360 #days
+    secretKey: ${JWT_TOKEN_SECRET_KEY:test}
 ---
 spring.config.activate.on-profile: dev
 # logging

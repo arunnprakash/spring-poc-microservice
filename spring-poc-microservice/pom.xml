@@ -15,6 +15,7 @@
 		<module>spring-poc-config</module>
 		<module>spring-poc-discovery-service</module>
 		<module>spring-poc-common</module>
+		<module>spring-poc-authorization-service</module>
 		<module>spring-poc-employee-service</module>
 		<!--<module>spring-poc-department-service</module>
 		<module>spring-poc-gateway-service</module>-->

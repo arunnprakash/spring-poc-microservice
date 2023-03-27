@@ -9,10 +9,13 @@ import com.example.demo.dao.EmployeeRepository;
 import com.example.demo.model.Employee;
 import com.google.common.collect.Lists;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * @author __ArunPrakash__
  *
  */
+@Slf4j
 @Service
 public class EmployeeServiceImpl extends BaseServiceImpl implements EmployeeService {
 	
@@ -21,6 +24,7 @@ public class EmployeeServiceImpl extends BaseServiceImpl implements EmployeeServ
 	
 	@Override
 	public List<Employee> getAllEmployees() {
+		log.debug("Getting all employees");
 		return Lists.newArrayList(employeeRepository.findAll());
 	}
 

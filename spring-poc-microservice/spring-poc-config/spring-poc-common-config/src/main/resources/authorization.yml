@@ -1,0 +1,18 @@
+spring:
+  config:
+    import:
+    - classpath:common.yml
+---
+# HTTP (Tomcat) port
+server:
+  port: ${EMPLOYEE_SERVICE_PORT:(@authorization.service.port@)}
+  forward-headers-strategy: framework
+
+spring:
+  datasource:
+    platform: ${DB_PLATFORM:(@authorization.db.platform@)}
+    url: ${DB_URL:(@authorization.db.url@)}
+    username: ${DB_USERNAME:(@authorization.db.username@)}
+    password: ${DB_PASSWORD:(@authorization.db.password@)}
+    driverClassName: ${DB_DRIVER:(@authorization.db.driver@)}
+    validationQuery: SELECT 1
