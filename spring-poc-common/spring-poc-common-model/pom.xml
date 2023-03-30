@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.example</groupId>
+		<artifactId>spring-poc-common</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>spring-poc-common-model</artifactId>
+	<name>spring-poc-common-model</name>
+	<description>spring-poc-common-model</description>
+
+	<dependencies>
+		<!-- Getter Setter -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jdbc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.example</groupId>
+			<artifactId>spring-poc-common-constant</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+	</dependencies>
+</project>

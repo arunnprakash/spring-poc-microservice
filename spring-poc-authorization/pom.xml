@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.example</groupId>
+		<artifactId>spring-poc-microservice</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<packaging>pom</packaging>
+	<artifactId>spring-poc-authorization</artifactId>
+	<name>spring-poc-authorization</name>
+	<description>Demo project for Spring Boot</description>
+	<modules>
+		<module>spring-poc-authorization-constant</module>
+		<module>spring-poc-authorization-dto</module>
+		<module>spring-poc-authorization-model</module>
+		<module>spring-poc-authorization-mapper</module>
+		<module>spring-poc-authorization-dao</module>
+		<module>spring-poc-authorization-resource</module>
+		<module>spring-poc-authorization-feign</module>
+		<module>spring-poc-authorization-service</module>
+		<module>spring-poc-authorization-service-launcher</module>
+	</modules>
+</project>

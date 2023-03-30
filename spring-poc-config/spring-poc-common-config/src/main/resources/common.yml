@@ -146,6 +146,10 @@ application:
     tokenPrefix: Bearer
     expiration: 360 #days
     secretKey: ${JWT_TOKEN_SECRET_KEY:test}
+#Interservice communication url for without discovery
+authorization-service:
+  ribbon:
+    listOfServers: ${AUTHORIZATION_SERVICE_BASEURL:localhost:(@authorization.service.port@)}
 ---
 spring.config.activate.on-profile: dev
 # logging

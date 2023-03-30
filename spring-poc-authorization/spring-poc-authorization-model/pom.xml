@@ -1,0 +1,37 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.example</groupId>
+		<artifactId>spring-poc-authorization</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>spring-poc-authorization-model</artifactId>
+	<name>spring-poc-authorization-model</name>
+	<description>spring-poc-authorization-model</description>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.example</groupId>
+			<artifactId>spring-poc-common-model</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.example</groupId>
+			<artifactId>spring-poc-common-feign</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.example</groupId>
+			<artifactId>spring-poc-authorization-constant</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<!-- Getter Setter -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>
+	</dependencies>
+</project>

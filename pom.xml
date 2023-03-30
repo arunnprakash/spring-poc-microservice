@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.0.4</version>
+		<version>3.0.5</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
@@ -29,18 +29,22 @@
 		<dependency-check-maven.version>8.1.2</dependency-check-maven.version>
 	</properties>
 	<modules>
-		<module>spring-poc-web</module>
 		<module>maven-poc-jaxb2</module>
 		<module>spring-poc-config</module>
 		<module>spring-poc-discovery-service</module>
 		<module>spring-poc-common</module>
-		<module>spring-poc-authorization-service</module>
-		<module>spring-poc-employee-service</module>
+		<module>spring-poc-authorization</module>
+		<!--<module>spring-poc-employee-service</module>-->
 		<!--<module>spring-poc-department-service</module>
 		<module>spring-poc-gateway-service</module>-->
 	</modules>
 	<dependencyManagement>
 		<dependencies>
+			<dependency>
+				<groupId>io.github.mhagnumdw</groupId>
+				<artifactId>bean-info-generator</artifactId>
+				<version>0.1.0</version>
+			</dependency>
 			<!-- Jwt -->
 			<dependency>
 				<groupId>io.jsonwebtoken</groupId>
@@ -100,6 +104,11 @@
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>properties-maven-plugin</artifactId>
 					<version>1.1.0</version>
+				</plugin>
+				<plugin>
+					<groupId>org.jfrog.buildinfo</groupId>
+					<artifactId>artifactory-maven-plugin</artifactId>
+					<version>3.3.0</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>
@@ -178,7 +187,11 @@
 				<configuration>
 					<files>
 						<file>./build-config.properties</file>
+						<file>../build-config.properties</file>
+						<file>../../build-config.properties</file>
+						<file>../../../build-config.properties</file>
 					</files>
+					<quiet>true</quiet>
 				</configuration>
 			</plugin>
 			<!--<plugin>
@@ -197,6 +210,41 @@
 					</execution>
 				</executions>
 			</plugin>-->
+			<plugin>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<phase>deploy</phase>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.jfrog.buildinfo</groupId>
+				<artifactId>artifactory-maven-plugin</artifactId>
+				<inherited>false</inherited>
+				<executions>
+					<execution>
+						<id>build-info</id>
+						<goals>
+							<goal>publish</goal>
+						</goals>
+						<configuration>
+							<publisher>
+								<contextUrl>${jfrog.base.url}/artifactory</contextUrl>
+								<username>${jfrog.auth.name}</username>
+								<password>${jfrog.auth.code}</password>
+								<repoKey>${releaseRepoKey}</repoKey>
+								<snapshotRepoKey>${snapshotRepoKey}</snapshotRepoKey>
+								<excludePatterns>**/*-exec.jar</excludePatterns>
+							</publisher>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 </project>
