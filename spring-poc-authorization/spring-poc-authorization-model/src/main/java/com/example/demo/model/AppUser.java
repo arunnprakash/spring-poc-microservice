@@ -1,7 +1,5 @@
 package com.example.demo.model;
 
-import com.example.demo.constant.Status;
-
 import lombok.Data;
 
 /**
