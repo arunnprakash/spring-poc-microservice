@@ -34,7 +34,6 @@
 		<module>spring-poc-discovery-service</module>
 		<module>spring-poc-common</module>
 		<module>spring-poc-authorization</module>
-		<!--<module>spring-poc-employee-service</module>-->
 		<!--<module>spring-poc-department-service</module>
 		<module>spring-poc-gateway-service</module>-->
 	</modules>
