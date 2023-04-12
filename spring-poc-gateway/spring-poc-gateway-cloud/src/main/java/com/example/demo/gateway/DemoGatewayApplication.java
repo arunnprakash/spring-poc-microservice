@@ -1,7 +1,6 @@
 package com.example.demo.gateway;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springdoc.core.models.GroupedOpenApi;
 import org.springdoc.core.properties.SwaggerUiConfigParameters;

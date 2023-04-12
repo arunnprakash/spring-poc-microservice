@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.example</groupId>
+		<artifactId>spring-poc-microservice</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<packaging>pom</packaging>
+	<artifactId>spring-poc-booking</artifactId>
+	<name>spring-poc-booking</name>
+	<description>Demo project for Spring Boot</description>
+	<modules>
+		<module>spring-poc-booking-constant</module>
+		<module>spring-poc-booking-dto</module>
+		<module>spring-poc-booking-model</module>
+		<module>spring-poc-booking-mapper</module>
+		<module>spring-poc-booking-dao</module>
+		<module>spring-poc-booking-resource</module>
+		<module>spring-poc-booking-feign</module>
+		<module>spring-poc-booking-service</module>
+		<module>spring-poc-booking-service-launcher</module>
+	</modules>
+</project>

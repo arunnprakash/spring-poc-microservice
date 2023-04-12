@@ -1,0 +1,18 @@
+spring:
+  config:
+    import:
+    - classpath:common.yml
+---
+# HTTP (Tomcat) port
+server:
+  port: ${BOOKING_SERVICE_PORT:(@booking.service.port@)}
+  forward-headers-strategy: framework
+
+spring:
+  datasource:
+    platform: ${DB_PLATFORM:(@booking.db.platform@)}
+    url: ${DB_URL:(@booking.db.url@)}
+    username: ${DB_USERNAME:(@booking.db.username@)}
+    password: ${DB_PASSWORD:(@booking.db.password@)}
+    driverClassName: ${DB_DRIVER:(@booking.db.driver@)}
+    validationQuery: SELECT 1

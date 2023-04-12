@@ -1,0 +1,14 @@
+# Config Server
+spring:
+  application:
+    name: booking-service
+  profiles: 
+    active: (@spring.profiles.active@)
+    default: dev
+  cloud:
+    config:
+      enabled: (@config.service.enabled@)
+      uri: ${CONFIG_SERVICE_URL:(@config.service.url@)}
+  main:
+    allow-bean-definition-overriding: true
+    allow-circular-references: true

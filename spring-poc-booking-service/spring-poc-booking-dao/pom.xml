@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.example</groupId>
+		<artifactId>spring-poc-booking</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>spring-poc-booking-dao</artifactId>
+	<name>spring-poc-booking-dao</name>
+	<description>spring-poc-booking-dao</description>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.example</groupId>
+			<artifactId>spring-poc-common-dao</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.example</groupId>
+			<artifactId>spring-poc-booking-model</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.example</groupId>
+			<artifactId>spring-poc-booking-dto</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.example</groupId>
+			<artifactId>spring-poc-booking-constant</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.example</groupId>
+			<artifactId>spring-poc-booking-mapper</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<!-- Getter Setter -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>
+	</dependencies>
+</project>

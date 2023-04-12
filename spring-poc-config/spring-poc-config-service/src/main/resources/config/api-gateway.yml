@@ -35,13 +35,18 @@ spring:
         locator:
           enabled: true
       routes:
-      - id: employee-service
-        uri: lb://employee-service
+      - id: authorization-service
+        uri: lb://authorization-service
         predicates:
-          - Path=/employee-service/**
+          - Path=/authorization-service/**
         filters:
-          - RewritePath=/employee-service/(?<path>.*), /$\{path}
-
+          - RewritePath=/authorization-service/(?<path>.*), /$\{path}
+      - id: booking-service
+        uri: lb://booking-service
+        predicates:
+          - Path=/booking-service/**
+        filters:
+          - RewritePath=/booking-service/(?<path>.*), /$\{path}
       - id: openapi3
         uri: http://localhost:(@gateway.service.port@)
         predicates:
