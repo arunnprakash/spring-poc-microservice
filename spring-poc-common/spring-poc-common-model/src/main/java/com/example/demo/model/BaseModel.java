@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import static com.example.demo.constant.Status.ACTIVE;
+
 import java.time.LocalDateTime;
 
 import org.springframework.data.annotation.CreatedDate;
@@ -17,7 +19,7 @@ public class BaseModel {
 	@Id
 	private Long id;
 	
-	private Status status;
+	private Status status = ACTIVE;
 	
 	@CreatedDate
 	private LocalDateTime createdDate;

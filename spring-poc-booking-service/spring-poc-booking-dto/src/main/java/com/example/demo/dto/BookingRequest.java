@@ -1,9 +1,6 @@
 package com.example.demo.dto;
 
-import com.example.demo.constant.Status;
-
 import io.github.mhagnumdw.beaninfogenerator.GenerateBeanMetaInfo;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -40,14 +37,10 @@ public class BookingRequest extends BaseRequest<BookingRequest.BookingRequestHol
 	@AllArgsConstructor(access = AccessLevel.PUBLIC)
 	@GenerateBeanMetaInfo
 	public static class BookingRequestBody {
-		@Schema(description = "UserName", minLength = 4, maxLength = 20)
-		private String username;
-
-		@Schema(description = "Password", minLength = 4, maxLength = 20)
-		private String password;
-		
-		@Schema(description = "Status")
-		private Status status;
+		private Long flightId;
+		private Long userId;
+		private Long startLocation;
+		private Long destinationLocation;
 	}
 
 }

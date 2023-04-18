@@ -45,7 +45,6 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 		AppUser appUser = new AppUser();
 		appUser.setUserName(body.getUsername());
 		appUser.setPassword(body.getPassword());
-		appUser.setStatus(body.getStatus());
 		appUser = appUserRepository.save(appUser);
 		log.info("AppUser Saved with id {}", appUser.getId());
 		return UserResponseHolder.builder()

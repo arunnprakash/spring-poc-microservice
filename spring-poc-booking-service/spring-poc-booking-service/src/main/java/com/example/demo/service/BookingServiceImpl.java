@@ -1,18 +1,23 @@
 package com.example.demo.service;
 
+import static com.example.demo.constant.PnrStatus.CONFIRM;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.constant.PnrStatus;
 import com.example.demo.dao.BookingRepository;
-import com.example.demo.dto.ResponseHeader;
 import com.example.demo.dto.BookingDTO;
 import com.example.demo.dto.BookingRequest.BookingRequestBody;
 import com.example.demo.dto.BookingResponse.BookingResponseBody;
 import com.example.demo.dto.BookingResponse.BookingResponseHolder;
+import com.example.demo.dto.ResponseHeader;
 import com.example.demo.mapper.BookingMapper;
 import com.example.demo.model.Booking;
+import com.example.demo.model.Pnr;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -43,9 +48,15 @@ public class BookingServiceImpl extends BaseServiceImpl implements BookingServic
 	@Override
 	public BookingResponseHolder createBooking(BookingRequestBody body) {
 		Booking booking = new Booking();
-		booking.setUserName(body.getUsername());
-		booking.setPassword(body.getPassword());
-		booking.setStatus(body.getStatus());
+		booking.setBookingDate(LocalDateTime.now());
+		booking.setUserId(body.getUserId());
+		booking.setFlightId(body.getFlightId());
+		booking.setStartLocation(body.getStartLocation());
+		booking.setDestinationLocation(body.getDestinationLocation());
+		Pnr pnr = new Pnr();
+		pnr.setPnrId("abcd");
+		pnr.setPnrStatus(CONFIRM);
+		booking.setPnr(pnr);
 		booking = bookingRepository.save(booking);
 		log.info("Booking Saved with id {}", booking.getId());
 		return BookingResponseHolder.builder()
