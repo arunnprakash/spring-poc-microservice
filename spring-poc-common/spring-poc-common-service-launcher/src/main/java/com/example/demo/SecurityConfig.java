@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +30,10 @@ public class SecurityConfig {
 	
 	/*@Autowired
 	private BCryptPasswordEncoder passwordEncoder;*/
-	
+
+	@Autowired
+	private JwtAuthorizationFilter jwtAuthorizationFilter;
+
 	@Bean
 	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		
@@ -71,11 +75,13 @@ public class SecurityConfig {
 		.accessDeniedPage("/accessDenied")
 		
 		.and()
-		.authenticationProvider(authenticationProvider());
-		
+		.authenticationProvider(authenticationProvider())
+		.addFilterBefore(jwtAuthorizationFilter, BasicAuthenticationFilter.class);
+
 		return http.build();
 		
 	}
+
 	@Bean
 	WebSecurityCustomizer webSecurityCustomizer() {
 		return web -> web.ignoring().requestMatchers(request -> {
@@ -83,6 +89,7 @@ public class SecurityConfig {
 			return true;
 		});
 	}
+
 	@Bean
 	AuthenticationProvider authenticationProvider() {
 		DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
