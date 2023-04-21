@@ -10,6 +10,15 @@ spring:
       settings:
         trace: true
         web-allow-others: true
+  task:
+    execution:
+      pool:
+        core-size: ${ASYNC_TASK_THREAD_POOL_CORE_SIZE:20}
+        max-size: ${ASYNC_TASK_THREAD_POOL_MAX_SIZE:1000}
+        queue-capacity: ${ASYNC_TASK_THREAD_POOL_QUEUE_CAPACITY:100}
+      shutdown:
+        await-termination: true
+      thread-name-prefix: ${ASYNC_TASK_THREAD_NAME_PREFIX:'async-task-thread-'}
   servlet:
     multipart:
       maxFileSize: ${MULTIPART_MAX_FILE_SIZE:10MB}
