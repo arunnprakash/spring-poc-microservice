@@ -112,7 +112,7 @@ logging:
     rollingpolicy:
       max-file-size: ${LOG_MAX_FILE_SIZE:1KB}
       file-name-pattern: ${LOG_PATH:logs}/${spring.cloud.client.hostname}_${spring.application.name}.%d{yyyyMMdd}.%i.log
-      total-size-cap: ${LOG_MAX_FILE_SIZE:100KB}
+      total-size-cap: ${LOG_TOTAL_SIZE_CAP:100KB}
       max-history: ${LOG_MAX_HISTORY:30}
       clean-history-on-start: ${LOG_CLEAR_HISTORY_ON_START:false}
 management:
