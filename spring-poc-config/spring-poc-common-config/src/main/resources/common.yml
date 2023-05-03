@@ -108,7 +108,13 @@ logging:
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss.SSS}| [%thread] UserName=%X{UserId}, RequestId=%X{RequestId}| ServiceName=${spring.zipkin.service.name:${spring.application.name:}}, TraceId=%X{traceId:-}, SpanId=%X{spanId:-}|%-5level|[%class{36}.%M] %L: %msg%n"
     file: "%d{yyyy-MM-dd HH:mm:ss.SSS}, [%thread] UserName=%X{UserId}, RequestId=%X{RequestId}| ServiceName=${spring.zipkin.service.name:${spring.application.name:}}, TraceId=%X{traceId:-}, SpanId=%X{spanId:-}|%-5level|[%class{36}.%M] %L: %msg%n"
-
+  logback:
+    rollingpolicy:
+      max-file-size: ${LOG_MAX_FILE_SIZE:1KB}
+      file-name-pattern: ${LOG_PATH:logs}/${spring.cloud.client.hostname}_${spring.application.name}.%d{yyyyMMdd}.%i.log
+      total-size-cap: ${LOG_MAX_FILE_SIZE:100KB}
+      max-history: ${LOG_MAX_HISTORY:30}
+      clean-history-on-start: ${LOG_CLEAR_HISTORY_ON_START:false}
 management:
   endpoints:
     web:
