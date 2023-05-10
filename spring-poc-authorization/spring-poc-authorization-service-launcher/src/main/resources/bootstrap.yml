@@ -10,5 +10,6 @@ spring:
       enabled: (@config.service.enabled@)
       uri: ${CONFIG_SERVICE_URL:(@config.service.url@)}
   main:
+    web-application-type: reactive
     allow-bean-definition-overriding: true
     allow-circular-references: true

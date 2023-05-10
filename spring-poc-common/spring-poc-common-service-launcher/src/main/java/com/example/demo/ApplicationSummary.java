@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.boot.info.BuildProperties;
 import org.springframework.boot.info.GitProperties;
-import org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext;
+import org.springframework.boot.web.reactive.context.ReactiveWebServerApplicationContext;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.env.Environment;
@@ -27,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ApplicationSummary {
 
 	@Autowired
-	private ServletWebServerApplicationContext webServerAppCtxt;
+	private ReactiveWebServerApplicationContext webServerAppCtxt;
 
 	@Autowired
 	private Environment environment;

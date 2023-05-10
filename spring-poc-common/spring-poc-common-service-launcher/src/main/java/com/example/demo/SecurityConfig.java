@@ -1,18 +1,18 @@
 package com.example.demo;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import static org.springframework.security.config.web.server.SecurityWebFiltersOrder.AUTHENTICATION;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
+import org.springframework.security.config.web.server.ServerHttpSecurity;
+import org.springframework.security.config.web.server.ServerHttpSecurity.CorsSpec;
+import org.springframework.security.config.web.server.ServerHttpSecurity.CsrfSpec;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.server.SecurityWebFilterChain;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -21,65 +21,41 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Slf4j
-@EnableWebSecurity
+@EnableWebFluxSecurity
 @Configuration
 public class SecurityConfig {
-	
-	@Autowired
-	private UserDetailsService userDetailsService;
-	
-	/*@Autowired
-	private BCryptPasswordEncoder passwordEncoder;*/
-
-	@Autowired
-	private JwtAuthorizationFilter jwtAuthorizationFilter;
 
 	@Bean
-	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		
-		http.authorizeHttpRequests()
-		.requestMatchers(
-				"/v2/api-docs/**",
-				"/v3/api-docs/**",
-				"/swagger-ui/**",
-				"/swagger-ui.html",
-				"/swagger-resources/**",
-				"/error",
-				"/favicon.ico",
-				"/**/*.png",
-				"/**/*.gif",
-				"/**/*.svg",
-				"/**/*.jpg",
-				"/**/*.html",
-				"/**/*.css",
-				"/**/*.js",
-				"/actuator/**").permitAll()
-		.requestMatchers("/welcome").authenticated()
-		.requestMatchers("/admin").hasAuthority("Admin")
-		.requestMatchers("/mgr").hasAuthority("Manager")
-		.requestMatchers("/emp").hasAuthority("Employee")
-		.requestMatchers("/hr").hasAuthority("HR")
-		.requestMatchers("/common").hasAnyAuthority("Employeee", "Manager", "Admin")
-		.anyRequest().authenticated()
-		
-		.and()
-		.formLogin()
-		.defaultSuccessUrl("/welcome",true)
-		
-		.and()
-		.logout()
-		.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-		
-		.and()
-		.exceptionHandling()
-		.accessDeniedPage("/accessDenied")
-		
-		.and()
-		.authenticationProvider(authenticationProvider())
-		.addFilterBefore(jwtAuthorizationFilter, BasicAuthenticationFilter.class);
-
-		return http.build();
-		
+	SecurityWebFilterChain filterChain(ServerHttpSecurity http, JwtAuthorizationFilter jwtAuthorizationFilter) throws Exception {
+		// @formatter:off
+		return http
+				.cors(CorsSpec::disable)
+				.csrf(CsrfSpec::disable)
+				//.exceptionHandling(exp -> exp.authenticationEntryPoint((req, res) -> res.se))
+				//.exceptionHandling(exp -> exp.authenticationEntryPoint((req, rsp, e) -> rsp.sendError(HttpServletResponse.SC_UNAUTHORIZED)))
+				//.sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.NEVER))
+				.authorizeExchange(exchange -> exchange
+						.pathMatchers(
+								"/v3/api-docs/**",
+								"/swagger-ui.html",
+								"/webjars/swagger-ui/**",
+								"/swagger-resources/**",
+								"/error",
+								"/favicon.ico",
+								"**.png",
+								"**.gif",
+								"**.svg",
+								"**.jpg",
+								"**.html",
+								"**.css",
+								"**.js",
+								"/actuator/**")
+						.permitAll()
+						.anyExchange()
+						.authenticated())
+				.addFilterBefore(jwtAuthorizationFilter, AUTHENTICATION)
+				.build();
+		// @formatter:on
 	}
 
 	@Bean
@@ -91,7 +67,7 @@ public class SecurityConfig {
 	}
 
 	@Bean
-	AuthenticationProvider authenticationProvider() {
+	AuthenticationProvider authenticationProvider(UserDetailsService userDetailsService) {
 		DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
 		authenticationProvider.setUserDetailsService(userDetailsService);
 		//authenticationProvider.setPasswordEncoder(passwordEncoder);

@@ -63,11 +63,6 @@
 			<!-- SpringDoc OpenApi 3 -->
 			<dependency>
 				<groupId>org.springdoc</groupId>
-				<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-				<version>${spring.openapi.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springdoc</groupId>
 				<artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
 				<version>${spring.openapi.version}</version>
 			</dependency>

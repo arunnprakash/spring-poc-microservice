@@ -38,7 +38,7 @@
 		<!-- OpenApi -->
 		<dependency>
 			<groupId>org.springdoc</groupId>
-			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
 		</dependency>
 		<!-- javax.annotation should be removed after bean info generator supports java17 -->
 		<dependency>
