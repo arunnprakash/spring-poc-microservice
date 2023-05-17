@@ -6,6 +6,7 @@ import static java.util.Arrays.asList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
+import org.springframework.boot.autoconfigure.r2dbc.R2dbcProperties;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.boot.info.BuildProperties;
 import org.springframework.boot.info.GitProperties;
@@ -44,6 +45,9 @@ public class ApplicationSummary {
 	@Autowired
 	private DataSourceProperties dataSourceProperties;
 	
+	@Autowired
+	private R2dbcProperties r2dbcProperties;
+	
 	@EventListener(ApplicationReadyEvent.class)
 	public void appSummary() {
 		out.println("================================Application Summary================================");
@@ -53,7 +57,7 @@ public class ApplicationSummary {
 		out.printf("\tGit Branch\t\t:\t%s%n", gitProperties.getBranch());
 		out.printf("\tGit CommitId\t\t:\t%s%n", gitProperties.getCommitId());
 		out.printf("\tDB Platform\t\t:\t%s%n", databaseType);
-		out.printf("\tDB Url\t\t\t:\t%s%n", dataSourceProperties.getUrl());
+		out.printf("\tDB Url\t\t\t:\t%s%n", dataSourceProperties.getUrl() != null ? dataSourceProperties.getUrl() : r2dbcProperties.getUrl());
 		out.printf("\tService Port\t\t:\t%s%n", webServerAppCtxt.getWebServer().getPort());
 		out.println("===================================================================================");
 	}

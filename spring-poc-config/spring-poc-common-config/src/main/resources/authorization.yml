@@ -9,10 +9,9 @@ server:
   forward-headers-strategy: framework
 
 spring:
-  datasource:
-    platform: ${DB_PLATFORM:(@authorization.db.platform@)}
+  r2dbc:
     url: ${DB_URL:(@authorization.db.url@)}
     username: ${DB_USERNAME:(@authorization.db.username@)}
     password: ${DB_PASSWORD:(@authorization.db.password@)}
-    driverClassName: ${DB_DRIVER:(@authorization.db.driver@)}
-    validationQuery: SELECT 1
+  datasource:
+    platform: ${DB_PLATFORM:(@authorization.db.platform@)}

@@ -3,8 +3,10 @@
  */
 package com.example.demo.service;
 
-import com.example.demo.dto.UserRequest.UserRequestBody;
-import com.example.demo.dto.UserResponse.UserResponseHolder;
+import com.example.demo.dto.UserRequest;
+import com.example.demo.dto.UserResponse;
+
+import reactor.core.publisher.Mono;
 
 /**
  * @author __ArunPrakash__
@@ -12,10 +14,10 @@ import com.example.demo.dto.UserResponse.UserResponseHolder;
  */
 public interface UserService {
 
-	UserResponseHolder getAllUsers();
+	Mono<UserResponse> getAllUsers();
 
-	UserResponseHolder addUser(UserRequestBody body);
+	Mono<UserResponse> addUser(UserRequest userRequest);
 
-	UserResponseHolder updateUser(UserRequestBody body);
+	Mono<UserResponse> updateUser(UserRequest userRequest);
 
 }

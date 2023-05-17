@@ -41,6 +41,8 @@ public class SecurityConfig {
 								"/webjars/swagger-ui/**",
 								"/swagger-resources/**",
 								"/error",
+								"/v1/login",
+								"/h2",
 								"/favicon.ico",
 								"**.png",
 								"**.gif",

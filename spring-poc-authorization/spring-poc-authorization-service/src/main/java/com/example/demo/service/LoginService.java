@@ -3,8 +3,10 @@
  */
 package com.example.demo.service;
 
-import com.example.demo.dto.LoginRequest.LoginRequestBody;
-import com.example.demo.dto.LoginResponse.LoginResponseHolder;
+import com.example.demo.dto.LoginRequest;
+import com.example.demo.dto.LoginResponse;
+
+import reactor.core.publisher.Mono;
 
 /**
  * @author __ArunPrakash__
@@ -12,6 +14,6 @@ import com.example.demo.dto.LoginResponse.LoginResponseHolder;
  */
 public interface LoginService {
 
-	LoginResponseHolder doLogin(LoginRequestBody body);
+	Mono<LoginResponse> doLogin(LoginRequest loginRequest);
 
 }

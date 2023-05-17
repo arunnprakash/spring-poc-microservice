@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.dao.AppUserRepository;
 import com.example.demo.dto.ResponseHeader;
+import com.example.demo.dto.UserRequest;
+import com.example.demo.dto.UserResponse;
 import com.example.demo.dto.AppUserDTO;
 import com.example.demo.dto.UserRequest.UserRequestBody;
 import com.example.demo.dto.UserResponse.UserResponseBody;
@@ -15,6 +17,8 @@ import com.example.demo.mapper.AppUserMapper;
 import com.example.demo.model.AppUser;
 
 import lombok.extern.slf4j.Slf4j;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 /**
  * @author __ArunPrakash__
@@ -31,30 +35,35 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 	private AppUserMapper appUserMapper;
 	
 	@Override
-	public UserResponseHolder getAllUsers() {
-		List<AppUser> appUsers = appUserRepository.findAll();
-		List<AppUserDTO> appUserList = appUsers.stream().map(appUserMapper::toDTO).toList();
-		return UserResponseHolder.builder()
-				.header(ResponseHeader.builder().responseId(null).build())
-				.body(UserResponseBody.builder().appUsers(appUserList).build())
-			.build();
+	public Mono<UserResponse> getAllUsers() {
+		return appUserRepository.findAll().map(appUserMapper::toDTO).collectList().flatMap(list -> {
+			return Mono.fromCallable(() -> {
+				return UserResponse
+						.builder().response(UserResponseHolder.builder()
+							.header(ResponseHeader.builder().responseId(null).build())
+							.body(UserResponseBody.builder().appUsers(list).build())
+						.build())
+					.build();
+			});
+		});
 	}
 
 	@Override
-	public UserResponseHolder addUser(UserRequestBody body) {
-		AppUser appUser = new AppUser();
-		appUser.setUserName(body.getUsername());
-		appUser.setPassword(body.getPassword());
-		appUser = appUserRepository.save(appUser);
-		log.info("AppUser Saved with id {}", appUser.getId());
-		return UserResponseHolder.builder()
-				.header(ResponseHeader.builder().responseId(null).build())
-				.body(UserResponseBody.builder().build())
-			.build();
+	public Mono<UserResponse> addUser(UserRequest userRequest) {
+		return appUserRepository.save(appUserMapper.toModel(userRequest.getRequest().getBody().getUser()))
+				.map(saveAppUser -> {
+					log.info("AppUser Saved with id {}", saveAppUser.getId());
+					return UserResponse
+							.builder().response(UserResponseHolder.builder()
+								.header(ResponseHeader.builder().responseId(null).build())
+								.body(UserResponseBody.builder().build())
+							.build())
+						.build();
+				});
 	}
 
 	@Override
-	public UserResponseHolder updateUser(UserRequestBody body) {
+	public Mono<UserResponse> updateUser(UserRequest userRequest) {
 		// TODO Auto-generated method stub
 		return null;
 	}
