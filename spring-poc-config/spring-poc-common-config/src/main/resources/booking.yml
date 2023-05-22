@@ -3,7 +3,6 @@ spring:
     import:
     - classpath:common.yml
 ---
-# HTTP (Tomcat) port
 server:
   port: ${BOOKING_SERVICE_PORT:(@booking.service.port@)}
   forward-headers-strategy: framework

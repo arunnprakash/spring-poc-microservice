@@ -3,7 +3,6 @@ spring:
     import:
     - classpath:common.yml
 ---
-# HTTP (Tomcat) port
 server:
   port: ${EMPLOYEE_SERVICE_PORT:(@authorization.service.port@)}
   forward-headers-strategy: framework
